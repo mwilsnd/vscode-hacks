@@ -290,18 +290,25 @@ let applyHax = () => {
             CanvasRenderingContext2D.prototype.putImageData = function(
                 imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
             ) {
-                if (this.canvas.parentElement.className == "minimap slider-mouseover")
+                if (dirtyX == null)
                     __putImageData.call(
                         this,
-                        putImageOverrideAlpha(imageData),
-                        dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+                        imageData, dx, dy
                     );
-                else
-                    __putImageData.call(
-                        this,
-                        imageData,
-                        dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
-                    );
+                else {
+                    if (this.canvas.parentElement.className == "minimap slider-mouseover")
+                        __putImageData.call(
+                            this,
+                            putImageOverrideAlpha(imageData),
+                            dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+                        );
+                    else
+                        __putImageData.call(
+                            this,
+                            imageData,
+                            dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+                        );
+                }
             }
         });
     }
